@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Item from "./components/item";
-
+import '../index.css';
 
 function App() {
 
@@ -10,8 +9,16 @@ function App() {
 
   function handleSubmit(e:any) {
     e.preventDefault();
-    setTasks((currentTasks:any) => {return [...currentTasks,input.current.value]})
+    setTasks((currentTasks:any) => {return [...currentTasks,input.current.value]});
+  }
+
+  useEffect(()=>{
     console.log(tasks);
+  },[tasks]);
+
+  function onClickDelete(dItem:any) {
+    setTasks(tasks.filter((item:any) => item != dItem));
+    alert("Task Deleted!!!");
   }
 
   return (
@@ -20,14 +27,14 @@ function App() {
         <h1>ToDo List</h1>
       </center>
       <form action="#" onSubmit={handleSubmit}>
-        <input type="text" name="text" id="text" ref={input}/>
-        <button type="submit">submit</button>
+        <input type="text" className="form-control" name="text" id="text" ref={input}/>
+        <button type="submit" className="btn btn-primary">Submit</button>
       </form>
 
-
-      <ul className="list-group">
+      
+      <ul className="list-group list-group-flush">
         {tasks.map((item:any) => {
-          return (<Item itemText={item} />);
+          return (<><li key={item} className="list-group-item list-group-item-primary" >{item}</li> <button className="btn btn-danger" onClick={()=>{onClickDelete(item)}}>Delete</button></>);
         })}
       </ul>
     </>

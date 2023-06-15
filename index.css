@@ -2,4 +2,31 @@
     margin: auto;
     margin-top: 100px;
     width: 50%;
+    margin-bottom: 50px;
+}
+
+button {
+    width: 10%;
+}
+form{
+    display: flex;
+    gap: 25px;
+}
+
+ul
+{
+    display: flex;
+    gap: 15px;
+    border-radius: 25px;    
+}
+
+ul li{
+    width: 100%;
+    align-self: flex-end;
+}
+
+ul button{
+    justify-self: center;
+    align-self: flex-end;
+    margin-bottom: 25px;
 }
