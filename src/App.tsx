@@ -1,15 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import '../index.css';
 
 function App() {
-
-  let [tasks,setTasks]:any = useState([]);
+  let tasks = [""];
   const input:any = useRef("");
-
+  
+  if (localStorage.length != 0){
+    for (let x = 0;x<=localStorage.length;x++){
+      if (localStorage.key(x) != "" && localStorage.key(x) != null){
+        tasks.push(localStorage.key(x));
+      }
+      console.log(x);
+    }
+    console.log(tasks);
+  } 
 
   function handleSubmit(e:any) {
     e.preventDefault();
-    setTasks((currentTasks:any) => {return [...currentTasks,input.current.value]});
+    tasks.push(input.current.value);
+    
+    tasks.forEach(element => {
+      localStorage.setItem(element,element);
+    })
   }
 
   useEffect(()=>{
@@ -17,7 +29,6 @@ function App() {
   },[tasks]);
 
   function onClickDelete(dItem:any) {
-    setTasks(tasks.filter((item:any) => item != dItem));
     alert("Task Deleted!!!");
   }
 
@@ -31,12 +42,10 @@ function App() {
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
 
-      
       <ul className="list-group list-group-flush">
-        {tasks.map((item:any) => {
-          return (<><li key={item} className="list-group-item list-group-item-primary" >{item}</li> <button className="btn btn-danger" onClick={()=>{onClickDelete(item)}}>Delete</button></>);
-        })}
+        {}
       </ul>
+      
     </>
   );
 }
