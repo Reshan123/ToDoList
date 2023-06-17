@@ -1,36 +1,36 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import '../index.css';
 
 function App() {
-  let tasks = [""];
-  const input:any = useRef("");
-  
-  if (localStorage.length != 0){
-    for (let x = 0;x<=localStorage.length;x++){
-      if (localStorage.key(x) != "" && localStorage.key(x) != null){
-        tasks.push(localStorage.key(x));
-      }
-      console.log(x);
-    }
-    console.log(tasks);
-  } 
+  const [tasks,setTasks]:any = useState([]);
+  const input = useRef();
+  let tempArray = [];
 
-  function handleSubmit(e:any) {
-    e.preventDefault();
-    tasks.push(input.current.value);
-    
-    tasks.forEach(element => {
-      localStorage.setItem(element,element);
+  const handleSubmit = (event:any) => {
+    event.preventDefault();
+    // console.log(input.current.value);
+    let value = input.current.value
+
+    setTasks((previousValue:any) => {
+      return[...previousValue, value];
     })
-  }
+
+    localStorage.setItem(value,value);
+    
+  };
 
   useEffect(()=>{
     console.log(tasks);
-  },[tasks]);
+  },[tasks])
 
-  function onClickDelete(dItem:any) {
-    alert("Task Deleted!!!");
-  }
+  useEffect(()=>{
+    for(let i = 0; i < localStorage.length; i++){
+      // console.log(localStorage.key(i));
+      setTasks((previousValue:any) => {
+        return[...previousValue, localStorage.key(i)];
+      })
+    }
+  },[])
 
   return (
     <>
@@ -43,7 +43,7 @@ function App() {
       </form>
 
       <ul className="list-group list-group-flush">
-        {}
+        {tasks.map((item:any) => {return <li className="list-group-item" key={item}>{item}</li>})}
       </ul>
       
     </>
